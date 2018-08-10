@@ -53,5 +53,11 @@ namespace ANN_Visualization
         {
             inner.FillColor = new Color(0, green, 0);
         }
+
+        public void Draw(ref MainWindow window)
+        {
+            outer.Draw(window, RenderStates.Default);
+            inner.Draw(window, RenderStates.Default);
+        }
     }
 }
