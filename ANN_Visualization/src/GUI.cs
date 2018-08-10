@@ -11,6 +11,7 @@ namespace ANN_Visualization
 {
     class GUI
     {
+        public List<Connection> Connections;
         public List<Neuron> Neurons;
         public MainWindow window;
         
@@ -18,6 +19,7 @@ namespace ANN_Visualization
         {
             window = new MainWindow(width, height, title);
             Neurons = new List<Neuron>();
+            Connections = new List<Connection>();
         }
 
         public void Run()
@@ -26,6 +28,10 @@ namespace ANN_Visualization
             {
                 window.Clear();
                 window.DispatchEvents();
+                foreach (Connection c in Connections)
+                {
+                    c.Draw(ref window);
+                }
                 foreach (Neuron n in Neurons)
                 {
                     n.Draw(ref window);
