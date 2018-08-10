@@ -72,6 +72,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.4.5.1\lib\net461\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="sfmlnet-audio-2">
       <HintPath>..\..\..\..\..\libraries\SFML.Net-2.2\lib\sfmlnet-audio-2.dll</HintPath>
     </Reference>
@@ -86,6 +89,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -97,12 +102,33 @@
     <Compile Include="src\Connection.cs" />
     <Compile Include="src\GUI.cs" />
     <Compile Include="src\MainWindow.cs" />
+    <Compile Include="src\NetworkVisualizer.cs" />
+    <Compile Include="src\NeuralNetworkCS\MathNetUtility.cs" />
+    <Compile Include="src\NeuralNetworkCS\MnistData.cs" />
+    <Compile Include="src\NeuralNetworkCS\MnistDataUtility.cs" />
+    <Compile Include="src\NeuralNetworkCS\Network.cs" />
     <Compile Include="src\Neuron.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="MnistData\t10k-images.idx3-ubyte">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MnistData\t10k-labels.idx1-ubyte">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MnistData\train-images.idx3-ubyte">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MnistData\train-labels.idx1-ubyte">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="NetworkData\network.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="csfml-audio-2.dll">

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 
-namespace ANN_Visualization
+namespace ANN_Visualization.src
 {
     public static class NeuronUtility
     {
@@ -80,8 +80,12 @@ namespace ANN_Visualization
 
         public void ChangeActivation(float a)
         {
+            if (a < 0)
+            {
+                Console.WriteLine("Warning: Coloring based on negative activation.");
+            }
             Activation = a;
-            float green = (255f * a / 1f);
+            float green = (255f * a);
             inner.FillColor = new Color(0, (byte)(green), 0);
         }
     }

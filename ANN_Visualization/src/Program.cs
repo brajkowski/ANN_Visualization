@@ -6,7 +6,7 @@ using SFML.System;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace ANN_Visualization
+namespace ANN_Visualization.src
 {
     class Program
     { 

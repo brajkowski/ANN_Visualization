@@ -7,7 +7,7 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
-namespace ANN_Visualization
+namespace ANN_Visualization.src
 {
     public static class GUIEvents
     {
@@ -18,8 +18,14 @@ namespace ANN_Visualization
                 GUI gui = (GUI)sender;
                 foreach (Neuron n in gui.Neurons)
                 {
-                    n.ChangeActivation(.8f);
+                    n.ChangeActivation(0.5f);
                 }
+            }
+            if(e.Code == Keyboard.Key.Right)
+            {
+                Console.WriteLine("Right Key");
+                GUI gui = (GUI)sender;
+                gui.visualizer.Visualize();
             }
         }
     }
@@ -28,6 +34,7 @@ namespace ANN_Visualization
     {
         public List<Connection> Connections;
         public List<Neuron> Neurons;
+        public NetworkVisualizer visualizer;
         //public MainWindow window;
         
         public GUI(uint width, uint height, string title) : base(width, height, title)
@@ -35,6 +42,7 @@ namespace ANN_Visualization
             //window = new MainWindow(width, height, title);
             Neurons = new List<Neuron>();
             Connections = new List<Connection>();
+            visualizer = new NetworkVisualizer();
             KeyPressed += new EventHandler<KeyEventArgs>(GUIEvents.OnKeyPress);
             
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 
-namespace ANN_Visualization
+namespace ANN_Visualization.src
 {
     public static class ConnectionUtility
     {

@@ -4,7 +4,7 @@ using SFML.Graphics;
 using SFML.System;
 using System.Threading;
 
-namespace ANN_Visualization
+namespace ANN_Visualization.src
 {
     public static class MainWindowEvents
     {
