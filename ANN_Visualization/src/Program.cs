@@ -17,7 +17,7 @@ namespace ANN_Visualization
             var neuron2 = new Neuron(new Vector2f(100f, 60f), 40f);
             gui.Neurons.Add(neuron);
             gui.Neurons.Add(neuron2);
-            Connection test = new Connection(ref neuron2, ref neuron);
+            Connection test = new Connection(ref neuron2, ref neuron, 3f);
             gui.Connections.Add(test);
             gui.Run();
         }

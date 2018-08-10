@@ -27,7 +27,7 @@ namespace ANN_Visualization
         }
     }
 
-    class Neuron
+    class Neuron : Drawable
     {
         //public List<Drawable> Drawables { get; }
         public CircleShape inner;
@@ -65,17 +65,24 @@ namespace ANN_Visualization
             inner.FillColor = new Color(0, green, 0);
         }
 
+        /*
         public void Draw(ref MainWindow window)
         {
             outer.Draw(window, RenderStates.Default);
             inner.Draw(window, RenderStates.Default);
         }
+        */
+        public void Draw(RenderTarget target, RenderStates states)
+        {
+            target.Draw(outer);
+            target.Draw(inner);
+        }
 
         public void ChangeActivation(float a)
         {
             Activation = a;
-            byte green = (byte)(255f * a / 1f);
-            inner.FillColor = new Color(0, green, 0);
+            float green = (255f * a / 1f);
+            inner.FillColor = new Color(0, (byte)(green), 0);
         }
     }
 }

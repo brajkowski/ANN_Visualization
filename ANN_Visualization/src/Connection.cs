@@ -10,10 +10,10 @@ namespace ANN_Visualization
 {
     public static class ConnectionUtility
     {
-        public static RectangleShape GenerateLine(ref Vector2f from, ref Vector2f to)
+        public static RectangleShape GenerateLine(ref Vector2f from, ref Vector2f to, float width)
         {
             float length = (float)(Math.Sqrt(Math.Pow(from.X - to.X, 2d) + Math.Pow(from.Y - to.Y, 2d)));
-            float width = 5f;
+            //float width = 5f;
             var size = new Vector2f(length, width);
             float angle = (float)(Math.Asin(Math.Abs(from.X - to.X) / length) / Math.PI) * 180f;
             angle = 90f - angle;
@@ -27,24 +27,24 @@ namespace ANN_Visualization
         }
     }
 
-    class Connection
+    class Connection : Drawable
     {
         Vector2f from;
         Vector2f to;
         RectangleShape line;
 
-        public Connection(ref Neuron from, ref Neuron to)
+        public Connection(ref Neuron from, ref Neuron to, float width)
         {
             this.from = from.CenterPoint;
             this.to = to.CenterPoint;
-            line = ConnectionUtility.GenerateLine(ref this.from, ref this.to);
+            line = ConnectionUtility.GenerateLine(ref this.from, ref this.to, width);
         }
 
-        public void Draw(ref MainWindow window)
+        public void Draw(RenderTarget target, RenderStates states)
         {
             //RectangleShape line = ConnectionUtility.GenerateLine(ref from, ref to);
             line.FillColor = Color.Cyan;
-            window.Draw(line, RenderStates.Default);
+            target.Draw(line, RenderStates.Default);
         }
     }
 }

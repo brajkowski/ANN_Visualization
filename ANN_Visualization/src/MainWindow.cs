@@ -50,7 +50,7 @@ namespace ANN_Visualization
         }
     }
 
-    class MainWindow : RenderWindow
+    public class MainWindow : RenderWindow
     {
         public int ZoomState { get; set; }
         public float ZoomRate { get; set; }
