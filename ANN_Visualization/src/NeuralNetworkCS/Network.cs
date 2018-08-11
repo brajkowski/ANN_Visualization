@@ -307,5 +307,28 @@ namespace NeuralNetworkCS
             sw.WriteLine("Test accuracy" + "," + Accuracy);
             sw.Close();
         }
+
+        public List<float> GetHiddenActivations()
+        {
+            var activations = new List<float>();
+            for (int layer = 1; layer < vSizes.Count; layer++)
+            {
+                for (int j = 0; j < vSizes[layer]; j++) 
+                {
+                    activations.Add(mNeurons[layer][j]);
+                }
+            }
+            return activations;
+        }
+
+        public List<float> GetHiddenWeights()
+        {
+            var weights = new List<float>();
+            for (int l = 2; l < vSizes.Count; l++)
+                for (int k = 0; k < vSizes[l - 1]; k++)
+                    for (int j = 0; j < vSizes[l]; j++)
+                        weights.Add(mWeights[l][j, k]);
+            return weights;
+        }
     }
 }

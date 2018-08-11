@@ -23,9 +23,8 @@ namespace ANN_Visualization.src
             }
             if(e.Code == Keyboard.Key.Right)
             {
-                Console.WriteLine("Right Key");
                 GUI gui = (GUI)sender;
-                gui.visualizer.Visualize();
+                gui.visualizer.Visualize(ref gui.Neurons,ref gui.Connections);
             }
         }
     }
@@ -35,16 +34,22 @@ namespace ANN_Visualization.src
         public List<Connection> Connections;
         public List<Neuron> Neurons;
         public NetworkVisualizer visualizer;
+        public int Height { get; }
+        public int Width { get; }
         //public MainWindow window;
         
         public GUI(uint width, uint height, string title) : base(width, height, title)
         {
             //window = new MainWindow(width, height, title);
+            Width = (int)width;
+            Height = (int)height;
             Neurons = new List<Neuron>();
             Connections = new List<Connection>();
             visualizer = new NetworkVisualizer();
             KeyPressed += new EventHandler<KeyEventArgs>(GUIEvents.OnKeyPress);
-            
+
+            Neurons = visualizer.GenerateVisualNeurons(3f, Height, Width);
+            Connections = visualizer.GenerateVisualConnections(0.5f, ref Neurons);
         }
 
         public void Run()

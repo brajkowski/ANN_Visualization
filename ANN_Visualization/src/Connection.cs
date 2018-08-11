@@ -16,7 +16,14 @@ namespace ANN_Visualization.src
             //float width = 5f;
             var size = new Vector2f(length, width);
             float angle = (float)(Math.Asin(Math.Abs(from.X - to.X) / length) / Math.PI) * 180f;
-            angle = 90f - angle;
+            if (to.Y < from.Y)
+            {
+                angle = -(90 - angle);
+            }
+            else
+            {
+                angle = 90f - angle;
+            }
             var fromAdjusted = new Vector2f(from.X + width / 2f, from.Y);
             var line = new RectangleShape(size)
             {
@@ -32,19 +39,44 @@ namespace ANN_Visualization.src
         Vector2f from;
         Vector2f to;
         RectangleShape line;
+        float weight;
+        int minOpacity;
+        int maxOpacity;
 
-        public Connection(ref Neuron from, ref Neuron to, float width)
+        public Connection(Neuron from, Neuron to, float width)
         {
             this.from = from.CenterPoint;
             this.to = to.CenterPoint;
             line = ConnectionUtility.GenerateLine(ref this.from, ref this.to, width);
+            line.FillColor = new Color(20, 20, 20, 100);
+            weight = 0f;
+            minOpacity = 10;
+            maxOpacity = 100;
         }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
             //RectangleShape line = ConnectionUtility.GenerateLine(ref from, ref to);
-            line.FillColor = Color.Cyan;
             target.Draw(line, RenderStates.Default);
+        }
+
+        public void ChangeWeight(float weight)
+        {
+            int red = 0;
+            int green = 0;
+            int opacity = minOpacity;
+            if (weight <= 0)
+            {
+                red = 255;
+            }
+            else
+            {
+                green = 255;
+            }
+            opacity = (int)(minOpacity + 10 * Math.Abs(weight));
+            if (opacity > maxOpacity)
+                opacity = maxOpacity;
+            line.FillColor = new Color((byte)red, (byte)green, 0, (byte)opacity);
         }
     }
 }
