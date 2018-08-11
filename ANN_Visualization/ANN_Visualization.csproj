@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Connection.cs" />
+    <Compile Include="src\DigitImage.cs" />
     <Compile Include="src\GUI.cs" />
     <Compile Include="src\MainWindow.cs" />
     <Compile Include="src\NetworkVisualizer.cs" />
@@ -143,6 +144,9 @@
     <Content Include="csfml-window-2.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Fonts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -13,10 +13,12 @@ namespace ANN_Visualization.src
             if (e.Code == Keyboard.Key.Left)
             {
                 gui.Visualizer.VisualizePrevious(ref gui.Neurons, ref gui.Connections);
+                gui.Visualizer.VisualizeDigit(ref gui.digitImage);
             }
             else if(e.Code == Keyboard.Key.Right)
             {
                 gui.Visualizer.VisualizeNext(ref gui.Neurons,ref gui.Connections);
+                gui.Visualizer.VisualizeDigit(ref gui.digitImage);
             }
             else if(e.Code == Keyboard.Key.Up)
             {
@@ -83,12 +85,13 @@ namespace ANN_Visualization.src
 
     class GUI : MainWindow
     {
+        public DigitImage digitImage;
         public List<Connection> Connections;
         public List<Neuron> Neurons;
         public NetworkVisualizer Visualizer;
-        public int Height { get; }
-        public int Width { get; }
-        
+        public int Height { get; set; }
+        public int Width { get; set; }
+          
         public GUI(uint width, uint height, string title) : base(width, height, title)
         {
             Width = (int)width;
@@ -98,10 +101,11 @@ namespace ANN_Visualization.src
             Visualizer = new NetworkVisualizer();
             KeyPressed += new EventHandler<KeyEventArgs>(GUIEvents.OnKeyPress);
             MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(GUIEvents.OnMouseButtonPress);
-
             Neurons = Visualizer.GenerateVisualNeurons(3f, Height, Width);
             Connections = Visualizer.GenerateVisualConnections(0.5f, ref Neurons);
+            digitImage = new DigitImage();
             Visualizer.Visualize(ref Neurons, ref Connections);
+            Visualizer.VisualizeDigit(ref digitImage);
         }
 
         public void Run()
@@ -118,6 +122,7 @@ namespace ANN_Visualization.src
                 {
                     Draw(n);
                 }
+                Draw(digitImage);
                 Display();
             }
         }

@@ -156,5 +156,12 @@ namespace ANN_Visualization.src
             connectionOpacityFactor = connectionOpacityFactor - 1f;
             Visualize(ref neurons, ref connections);
         }
+
+        public void VisualizeDigit(ref DigitImage digitImage)
+        { 
+            float[] pixels = mnistData.TestImages.Column(currentImage).ToArray();
+            int label = (int)(mnistData.TestLabels[currentImage]);
+            digitImage.Update(pixels,label);
+        }
     }
 }
