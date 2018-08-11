@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SFML.Window;
+using SFML.System;
 
 namespace ANN_Visualization.src
 {
@@ -25,6 +26,29 @@ namespace ANN_Visualization.src
             {
                 gui.Visualizer.DecreaseOpacityFactor(ref gui.Neurons, ref gui.Connections);
             }
+            else if (e.Code == Keyboard.Key.A)
+            {
+                foreach (Neuron n in gui.Neurons)
+                {
+                    n.ShouldBeDrawn = true;
+                }
+            }
+        }
+        public static void OnMouseButtonPress(object sender, MouseButtonEventArgs e)
+        {
+            GUI gui = (GUI)(sender);
+            Vector2f coords = gui.MapPixelToCoords(new Vector2i(e.X, e.Y),gui.GetView());
+            if (e.Button == Mouse.Button.Right)
+            {
+                foreach (Neuron n in gui.Neurons)
+                {
+                    if (n.outer.GetGlobalBounds().Contains(coords.X,coords.Y))
+                    {
+                        n.ShouldBeDrawn = false;
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -44,6 +68,7 @@ namespace ANN_Visualization.src
             Connections = new List<Connection>();
             Visualizer = new NetworkVisualizer();
             KeyPressed += new EventHandler<KeyEventArgs>(GUIEvents.OnKeyPress);
+            MouseButtonPressed += new EventHandler<MouseButtonEventArgs>(GUIEvents.OnMouseButtonPress);
 
             Neurons = Visualizer.GenerateVisualNeurons(3f, Height, Width);
             Connections = Visualizer.GenerateVisualConnections(0.5f, ref Neurons);

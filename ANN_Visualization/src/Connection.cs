@@ -31,6 +31,8 @@ namespace ANN_Visualization.src
 
     class Connection : Drawable
     {
+        Neuron fromN;
+        Neuron toN;
         Vector2f from;
         Vector2f to;
         RectangleShape line;
@@ -40,6 +42,8 @@ namespace ANN_Visualization.src
 
         public Connection(Neuron from, Neuron to, float width)
         {
+            fromN = from;
+            toN = to;
             this.from = from.CenterPoint;
             this.to = to.CenterPoint;
             line = ConnectionUtility.GenerateLine(ref this.from, ref this.to, width);
@@ -51,7 +55,10 @@ namespace ANN_Visualization.src
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(line, RenderStates.Default);
+            if (fromN.ShouldBeDrawn && toN.ShouldBeDrawn)
+            {
+                target.Draw(line, RenderStates.Default);
+            }
         }
 
         public void ChangeWeight(float weight, float opacityFactor)

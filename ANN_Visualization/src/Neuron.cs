@@ -29,10 +29,12 @@ namespace ANN_Visualization.src
         public CircleShape outer;
         public Vector2f CenterPoint { get; }
         public float Activation;
+        public bool ShouldBeDrawn;
 
         public Neuron(Vector2f position, float radius)
         {
             float occlusion = 0.8f;
+            ShouldBeDrawn = true;
 
             outer = new CircleShape(radius)
             {
@@ -53,8 +55,11 @@ namespace ANN_Visualization.src
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(outer);
-            target.Draw(inner);
+            if (ShouldBeDrawn)
+            {
+                target.Draw(outer);
+                target.Draw(inner);
+            }
         }
 
         public void ChangeActivation(float a)
