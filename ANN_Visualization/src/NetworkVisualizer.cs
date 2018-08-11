@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ANN_Visualization.src
 {
@@ -76,13 +73,8 @@ namespace ANN_Visualization.src
 
         public void Visualize(ref List<Neuron> neurons, ref List<Connection> connections)
         {
-            Console.WriteLine("Visualizer: Visualizing image {0} with label {1}", currentImage,mnistData.TestLabels[currentImage]);
             network.SetInputLayer(mnistData.TestImages.Column(currentImage));
             network.FeedForward();
-            /*if (!refresh)
-            {
-                currentImage++;
-            }*/
 
             List<float> activations = network.GetHiddenActivations();
             List<float> weights = network.GetHiddenWeights();
@@ -116,6 +108,7 @@ namespace ANN_Visualization.src
                 return;
             }
             currentImage--;
+            Console.WriteLine("Visualizer: Visualizing image {0} with label {1}", currentImage, mnistData.TestLabels[currentImage]);
             Visualize(ref neurons, ref connections);
         }
 
@@ -127,6 +120,7 @@ namespace ANN_Visualization.src
                 return;
             }
             currentImage++;
+            Console.WriteLine("Visualizer: Visualizing image {0} with label {1}", currentImage, mnistData.TestLabels[currentImage]);
             Visualize(ref neurons, ref connections);
         }
 
