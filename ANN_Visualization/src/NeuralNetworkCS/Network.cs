@@ -24,14 +24,14 @@ namespace NeuralNetworkCS
     {
         private List<int> vSizes;   // Using List<int> since Math.NET doesnt support Vector<int>.
         private Vector<float> vY;
-        private List<Vector<float>> mNeurons;
+        public List<Vector<float>> mNeurons;
         private List<Vector<float>> mZ;
         private List<Vector<float>> mError;
         private List<Vector<float>> mBiases;
         private List<Vector<float>> mSumB;
         private List<Matrix<float>> mWeights;
         private List<Matrix<float>> mSumW;
-        private int lastLayerIndex;
+        public int lastLayerIndex;
         private Activation activation;
 
         public double Accuracy { get; set; }

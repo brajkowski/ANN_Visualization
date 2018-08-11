@@ -161,7 +161,9 @@ namespace ANN_Visualization.src
         { 
             float[] pixels = mnistData.TestImages.Column(currentImage).ToArray();
             int label = (int)(mnistData.TestLabels[currentImage]);
-            digitImage.Update(pixels,label);
+            int predicting = network.mNeurons[network.lastLayerIndex].MaximumIndex();
+           
+            digitImage.Update(pixels,label, predicting);
         }
     }
 }
