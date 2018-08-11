@@ -20,9 +20,9 @@ namespace ANN_Visualization.src
         {
             mnistData = new NeuralNetworkCS.MnistData();
             mnistData.LoadAll();
-            networkSize = NeuralNetworkCS.NetworkUtility.SizeSavedNetwork(@"NetworkData/network.dat");
+            networkSize = NeuralNetworkCS.NetworkUtility.SizeSavedNetwork(@"NetworkData/network2.dat");
             network = new NeuralNetworkCS.Network(networkSize,NeuralNetworkCS.Activation.Sigmoid);
-            network.LoadNetwork(@"NetworkData/network.dat");
+            network.LoadNetwork(@"NetworkData/network2.dat");
             currentImage = 0;
             connectionOpacityFactor = 10f;
             maxConnectionOpacityFactor = 100f;
