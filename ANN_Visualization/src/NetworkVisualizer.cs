@@ -13,6 +13,9 @@ namespace ANN_Visualization.src
         public NeuralNetworkCS.Network network;
         public List<int> networkSize;
         public int currentImage;
+        public float connectionOpacityFactor;
+        public float maxConnectionOpacityFactor;
+        public float minConnectionOpacityFactor;
 
         public NetworkVisualizer()
         {
@@ -22,6 +25,9 @@ namespace ANN_Visualization.src
             network = new NeuralNetworkCS.Network(networkSize,NeuralNetworkCS.Activation.Sigmoid);
             network.LoadNetwork(@"NetworkData/network.dat");
             currentImage = 0;
+            connectionOpacityFactor = 10f;
+            maxConnectionOpacityFactor = 100f;
+            minConnectionOpacityFactor = 1f;
         }
 
         public List<Neuron> GenerateVisualNeurons(float radius, int height, int width)
@@ -39,7 +45,6 @@ namespace ANN_Visualization.src
                 y = prevCenter - nextCenter;
                 for(int j = 0; j < networkSize[i]; j++)
                 {
-                    Console.WriteLine("{0},{1}", x, y);
                     neuronList.Add(new Neuron(new SFML.System.Vector2f(x,y), radius));
                     y += vertSpacing;
                 }
@@ -71,16 +76,19 @@ namespace ANN_Visualization.src
 
         public void Visualize(ref List<Neuron> neurons, ref List<Connection> connections)
         {
-            Console.WriteLine("Visualizing image {0} with label {1}", currentImage,mnistData.TestLabels[currentImage]);
+            Console.WriteLine("Visualizer: Visualizing image {0} with label {1}", currentImage,mnistData.TestLabels[currentImage]);
             network.SetInputLayer(mnistData.TestImages.Column(currentImage));
             network.FeedForward();
-            currentImage++;
+            /*if (!refresh)
+            {
+                currentImage++;
+            }*/
 
             List<float> activations = network.GetHiddenActivations();
             List<float> weights = network.GetHiddenWeights();
             if (activations.Count != neurons.Count)
             {
-                Console.WriteLine("Error visualizing neurons: neuron/activation size arent equal");
+                Console.WriteLine("Visualizer Error: neuron/activation size arent equal");
                 return;
             }
             for (int i = 0; i < neurons.Count; i++)
@@ -90,14 +98,58 @@ namespace ANN_Visualization.src
 
             if (weights.Count != connections.Count)
             {
-                Console.WriteLine("Error visualizing neurons: connection/weight size arent equal");
+                Console.WriteLine("Visualizer Error: connection/weight size arent equal");
                 return;
             }
             
             for (int i = 0; i < connections.Count; i++)
             {
-                connections[i].ChangeWeight(weights[i]);
+                connections[i].ChangeWeight(weights[i], connectionOpacityFactor);
             }
+        }
+
+        public void VisualizePrevious(ref List<Neuron> neurons, ref List<Connection> connections)
+        {
+            if (currentImage == 0)
+            {
+                Console.WriteLine("Visualizer Error: At the first image");
+                return;
+            }
+            currentImage--;
+            Visualize(ref neurons, ref connections);
+        }
+
+        public void VisualizeNext(ref List<Neuron> neurons, ref List<Connection> connections)
+        {
+            if (currentImage == mnistData.TestLabels.Count - 1)
+            {
+                Console.WriteLine("Visualizer Error: At the last image");
+                return;
+            }
+            currentImage++;
+            Visualize(ref neurons, ref connections);
+        }
+
+        public void IncreaseOpacityFactor(ref List<Neuron> neurons, ref List<Connection> connections)
+        {
+            if (connectionOpacityFactor == maxConnectionOpacityFactor)
+            {
+                Console.WriteLine("Visualizer: At max opacity");
+                return;
+            }
+            connectionOpacityFactor = connectionOpacityFactor + 1f;
+            Visualize(ref neurons, ref connections);
+        }
+
+        public void DecreaseOpacityFactor(ref List<Neuron> neurons, ref List<Connection> connections)
+        {
+            if (connectionOpacityFactor == minConnectionOpacityFactor)
+            {
+                Console.WriteLine("Visualizer: At min opacity");
+                return;
+            }
+            connectionOpacityFactor = connectionOpacityFactor - 1f;
+            Visualize(ref neurons, ref connections);
         }
     }
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 
@@ -13,7 +9,6 @@ namespace ANN_Visualization.src
         public static RectangleShape GenerateLine(ref Vector2f from, ref Vector2f to, float width)
         {
             float length = (float)(Math.Sqrt(Math.Pow(from.X - to.X, 2d) + Math.Pow(from.Y - to.Y, 2d)));
-            //float width = 5f;
             var size = new Vector2f(length, width);
             float angle = (float)(Math.Asin(Math.Abs(from.X - to.X) / length) / Math.PI) * 180f;
             if (to.Y < from.Y)
@@ -49,19 +44,19 @@ namespace ANN_Visualization.src
             this.to = to.CenterPoint;
             line = ConnectionUtility.GenerateLine(ref this.from, ref this.to, width);
             line.FillColor = new Color(20, 20, 20, 100);
-            weight = 0f;
             minOpacity = 10;
             maxOpacity = 100;
+            weight = 0f;
         }
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            //RectangleShape line = ConnectionUtility.GenerateLine(ref from, ref to);
             target.Draw(line, RenderStates.Default);
         }
 
-        public void ChangeWeight(float weight)
+        public void ChangeWeight(float weight, float opacityFactor)
         {
+            this.weight = weight;
             int red = 0;
             int green = 0;
             int opacity = minOpacity;
@@ -73,7 +68,7 @@ namespace ANN_Visualization.src
             {
                 green = 255;
             }
-            opacity = (int)(minOpacity + 10 * Math.Abs(weight));
+            opacity = (int)(minOpacity + opacityFactor * Math.Abs(weight));
             if (opacity > maxOpacity)
                 opacity = maxOpacity;
             line.FillColor = new Color((byte)red, (byte)green, 0, (byte)opacity);

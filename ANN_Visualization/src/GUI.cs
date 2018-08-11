@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
 using SFML.Window;
 
 namespace ANN_Visualization.src
@@ -13,18 +8,22 @@ namespace ANN_Visualization.src
     {
         public static void OnKeyPress(object sender, KeyEventArgs e)
         {
+            GUI gui = (GUI)(sender);
             if (e.Code == Keyboard.Key.Left)
             {
-                GUI gui = (GUI)sender;
-                foreach (Neuron n in gui.Neurons)
-                {
-                    n.ChangeActivation(0.5f);
-                }
+                gui.Visualizer.VisualizePrevious(ref gui.Neurons, ref gui.Connections);
             }
-            if(e.Code == Keyboard.Key.Right)
+            else if(e.Code == Keyboard.Key.Right)
             {
-                GUI gui = (GUI)sender;
-                gui.visualizer.Visualize(ref gui.Neurons,ref gui.Connections);
+                gui.Visualizer.VisualizeNext(ref gui.Neurons,ref gui.Connections);
+            }
+            else if(e.Code == Keyboard.Key.Up)
+            {
+                gui.Visualizer.IncreaseOpacityFactor(ref gui.Neurons, ref gui.Connections);
+            }
+            else if (e.Code == Keyboard.Key.Down)
+            {
+                gui.Visualizer.DecreaseOpacityFactor(ref gui.Neurons, ref gui.Connections);
             }
         }
     }
@@ -33,23 +32,22 @@ namespace ANN_Visualization.src
     {
         public List<Connection> Connections;
         public List<Neuron> Neurons;
-        public NetworkVisualizer visualizer;
+        public NetworkVisualizer Visualizer;
         public int Height { get; }
         public int Width { get; }
-        //public MainWindow window;
         
         public GUI(uint width, uint height, string title) : base(width, height, title)
         {
-            //window = new MainWindow(width, height, title);
             Width = (int)width;
             Height = (int)height;
             Neurons = new List<Neuron>();
             Connections = new List<Connection>();
-            visualizer = new NetworkVisualizer();
+            Visualizer = new NetworkVisualizer();
             KeyPressed += new EventHandler<KeyEventArgs>(GUIEvents.OnKeyPress);
 
-            Neurons = visualizer.GenerateVisualNeurons(3f, Height, Width);
-            Connections = visualizer.GenerateVisualConnections(0.5f, ref Neurons);
+            Neurons = Visualizer.GenerateVisualNeurons(3f, Height, Width);
+            Connections = Visualizer.GenerateVisualConnections(0.5f, ref Neurons);
+            Visualizer.Visualize(ref Neurons, ref Connections);
         }
 
         public void Run()

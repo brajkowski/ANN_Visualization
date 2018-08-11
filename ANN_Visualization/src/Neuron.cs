@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 
@@ -29,7 +25,6 @@ namespace ANN_Visualization.src
 
     class Neuron : Drawable
     {
-        //public List<Drawable> Drawables { get; }
         public CircleShape inner;
         public CircleShape outer;
         public Vector2f CenterPoint { get; }
@@ -38,7 +33,6 @@ namespace ANN_Visualization.src
         public Neuron(Vector2f position, float radius)
         {
             float occlusion = 0.8f;
-            //Drawables = new List<Drawable>();
 
             outer = new CircleShape(radius)
             {
@@ -49,29 +43,14 @@ namespace ANN_Visualization.src
             inner = new CircleShape(radius * occlusion)
             {
                 FillColor = new Color(0, 0, 0),
-                Position = position,
-                
+                Position = position, 
             };
 
             NeuronUtility.AlignCircles(ref outer, ref inner);
             CenterPoint = NeuronUtility.CalculateCenter(ref outer);
             ChangeActivation(0f);
-            //Drawables.Add(outer);
-            //Drawables.Add(inner);
         }
 
-        public void ChangeColor(byte green)
-        {
-            inner.FillColor = new Color(0, green, 0);
-        }
-
-        /*
-        public void Draw(ref MainWindow window)
-        {
-            outer.Draw(window, RenderStates.Default);
-            inner.Draw(window, RenderStates.Default);
-        }
-        */
         public void Draw(RenderTarget target, RenderStates states)
         {
             target.Draw(outer);
@@ -82,7 +61,7 @@ namespace ANN_Visualization.src
         {
             if (a < 0)
             {
-                Console.WriteLine("Warning: Coloring based on negative activation.");
+                Console.WriteLine("Warning: Neuron color based on negative activation.");
             }
             Activation = a;
             float green = (255f * a);
