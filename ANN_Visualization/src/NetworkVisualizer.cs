@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace ANN_Visualization.src
 {
+    enum Connections { All = 0, Positive = 1, Negative = 2 };
     class NetworkVisualizer
     {
 
@@ -13,6 +14,7 @@ namespace ANN_Visualization.src
         public float connectionOpacityFactor;
         public float maxConnectionOpacityFactor;
         public float minConnectionOpacityFactor;
+        public Connections connectionViewState;
 
         public NetworkVisualizer()
         {
@@ -25,6 +27,7 @@ namespace ANN_Visualization.src
             connectionOpacityFactor = 10f;
             maxConnectionOpacityFactor = 100f;
             minConnectionOpacityFactor = 1f;
+            connectionViewState = Connections.All;
         }
 
         public List<Neuron> GenerateVisualNeurons(float radius, int height, int width)
@@ -96,6 +99,14 @@ namespace ANN_Visualization.src
             
             for (int i = 0; i < connections.Count; i++)
             {
+                if (connectionViewState == Connections.Negative && weights[i] >= 0)
+                {
+                    continue;
+                }
+                if (connectionViewState == Connections.Positive && weights[i] < 0)
+                {
+                    continue;
+                }
                 connections[i].ChangeWeight(weights[i], connectionOpacityFactor);
             }
         }

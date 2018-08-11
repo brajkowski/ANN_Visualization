@@ -33,6 +33,35 @@ namespace ANN_Visualization.src
                     n.ShouldBeDrawn = true;
                 }
             }
+            else if (e.Code == Keyboard.Key.R)
+            {
+                gui.Visualizer.connectionViewState = Connections.Negative;
+                gui.Visualizer.Visualize(ref gui.Neurons, ref gui.Connections);
+                foreach (Connection c in gui.Connections)
+                {
+                    if (c.weight >= 0)
+                    {
+                        c.Dampen();
+                    }
+                }
+            }
+            else if (e.Code == Keyboard.Key.G)
+            {
+                gui.Visualizer.connectionViewState = Connections.Positive;
+                gui.Visualizer.Visualize(ref gui.Neurons, ref gui.Connections);
+                foreach (Connection c in gui.Connections)
+                {
+                    if (c.weight < 0)
+                    {
+                        c.Dampen();
+                    }
+                }
+            }
+            else if (e.Code == Keyboard.Key.B)
+            {
+                gui.Visualizer.connectionViewState = Connections.All;
+                gui.Visualizer.Visualize(ref gui.Neurons, ref gui.Connections);
+            }
         }
         public static void OnMouseButtonPress(object sender, MouseButtonEventArgs e)
         {

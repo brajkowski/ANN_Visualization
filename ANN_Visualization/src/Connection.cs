@@ -36,7 +36,7 @@ namespace ANN_Visualization.src
         Vector2f from;
         Vector2f to;
         RectangleShape line;
-        float weight;
+        public float weight { get; private set; }
         int minOpacity;
         int maxOpacity;
 
@@ -48,8 +48,8 @@ namespace ANN_Visualization.src
             this.to = to.CenterPoint;
             line = ConnectionUtility.GenerateLine(ref this.from, ref this.to, width);
             line.FillColor = new Color(20, 20, 20, 100);
-            minOpacity = 10;
-            maxOpacity = 100;
+            minOpacity = 1;
+            maxOpacity = 255;
             weight = 0f;
         }
 
@@ -79,6 +79,13 @@ namespace ANN_Visualization.src
             if (opacity > maxOpacity)
                 opacity = maxOpacity;
             line.FillColor = new Color((byte)red, (byte)green, 0, (byte)opacity);
+        }
+
+        public void Dampen()
+        {
+            Color newColor = line.FillColor;
+            newColor.A = (byte)minOpacity;
+            line.FillColor = newColor;
         }
     }
 }
