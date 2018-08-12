@@ -130,7 +130,7 @@ namespace ANN_Visualization.src
                 return;
             }
             currentImage--;
-            Console.WriteLine("Visualizer: Visualizing image {0} with label {1}", currentImage, mnistData.TestLabels[currentImage]);
+            //Console.WriteLine("Visualizer: Visualizing image {0} with label {1}", currentImage, mnistData.TestLabels[currentImage]);
             Visualize(ref neurons, ref connections);
         }
 
@@ -142,7 +142,7 @@ namespace ANN_Visualization.src
                 return;
             }
             currentImage++;
-            Console.WriteLine("Visualizer: Visualizing image {0} with label {1}", currentImage, mnistData.TestLabels[currentImage]);
+            //Console.WriteLine("Visualizer: Visualizing image {0} with label {1}", currentImage, mnistData.TestLabels[currentImage]);
             Visualize(ref neurons, ref connections);
         }
 
