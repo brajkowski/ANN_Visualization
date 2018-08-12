@@ -14,12 +14,12 @@ namespace ANN_Visualization.src
             View newView = window.GetView();
             if (e.Delta > 0)
             {
-                newView.Zoom(1f/window.ZoomRate);
+                newView.Zoom(1f/window.ZoomFactor);
                 window.ZoomState += 1;
             }
             else
             {
-                newView.Zoom(window.ZoomRate);
+                newView.Zoom(window.ZoomFactor);
                 window.ZoomState -= 1;
             }
             window.SetView(newView);
@@ -44,6 +44,7 @@ namespace ANN_Visualization.src
             var window = (MainWindow)(sender);
             if (e.Button == Mouse.Button.Middle)
             {
+                // Multithreaded pan to keep ui responsive.
                 var t = new Thread(new ThreadStart(() => window.ConstantPan(e.X,e.Y)));
                 t.Start();
             }
@@ -53,12 +54,12 @@ namespace ANN_Visualization.src
     public class MainWindow : RenderWindow
     {
         public int ZoomState { get; set; }
-        public float ZoomRate { get; set; }
+        public float ZoomFactor { get; set; }
 
         public MainWindow(uint width, uint height, string title) : base(new VideoMode(width, height), title)
         {
             ZoomState = 0;
-            ZoomRate = 2f;
+            ZoomFactor = 2f;
             SetFramerateLimit(60);
             Closed += new EventHandler(MainWindowEvents.OnClose);
             Resized += new EventHandler<SizeEventArgs>(MainWindowEvents.OnResize);
@@ -77,8 +78,8 @@ namespace ANN_Visualization.src
             {
                 mouseX = Mouse.GetPosition(this).X;
                 mouseY = Mouse.GetPosition(this).Y;
-                newX = -(mouseX - originX) * (float)Math.Pow(ZoomRate, -ZoomState);
-                newY = -(mouseY - originY) * (float)Math.Pow(ZoomRate, -ZoomState);
+                newX = -(mouseX - originX) * (float)Math.Pow(ZoomFactor, -ZoomState);   // Undo zooming to get constant panning at all zoom states.
+                newY = -(mouseY - originY) * (float)Math.Pow(ZoomFactor, -ZoomState);   //
                 newView = GetView();
                 newView.Move(new Vector2f(newX, newY));
                 SetView(newView);

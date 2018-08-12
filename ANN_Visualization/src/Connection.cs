@@ -36,7 +36,7 @@ namespace ANN_Visualization.src
         Vector2f from;
         Vector2f to;
         RectangleShape line;
-        public float weight { get; private set; }
+        public float weight;
         int minOpacity;
         int maxOpacity;
 
@@ -47,9 +47,9 @@ namespace ANN_Visualization.src
             this.from = from.CenterPoint;
             this.to = to.CenterPoint;
             line = ConnectionUtility.GenerateLine(ref this.from, ref this.to, width);
-            line.FillColor = new Color(20, 20, 20, 100);
-            minOpacity = 1;
-            maxOpacity = 255;
+            line.FillColor = new Color(20, 20, 20, 100);    // From visual trial and error.
+            minOpacity = 1;                                 // Based on RGB scheme.
+            maxOpacity = 255;                               // Based on RGB scheme.
             weight = 0f;
         }
 
@@ -75,7 +75,9 @@ namespace ANN_Visualization.src
             {
                 green = 255;
             }
-            opacity = (int)(minOpacity + opacityFactor * Math.Abs(weight));
+            opacity = (int)(minOpacity + opacityFactor * Math.Abs(weight)); // opacityFactor is set from visualizer and is user controlled.
+
+            // Protects against user setting opacityFactor too high.
             if (opacity > maxOpacity)
                 opacity = maxOpacity;
             line.FillColor = new Color((byte)red, (byte)green, 0, (byte)opacity);
@@ -83,6 +85,7 @@ namespace ANN_Visualization.src
 
         public void Dampen()
         {
+            // Get color to keep connection red/green, then change opacity to min.
             Color newColor = line.FillColor;
             newColor.A = (byte)minOpacity;
             line.FillColor = newColor;

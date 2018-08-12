@@ -27,30 +27,27 @@ namespace ANN_Visualization.src
     {
         public CircleShape inner;
         public CircleShape outer;
-        public Vector2f CenterPoint { get; }
+        public Vector2f CenterPoint;
         public float Activation;
         public bool ShouldBeDrawn;
 
         public Neuron(Vector2f position, float radius)
         {
             float occlusion = 0.8f;
-            ShouldBeDrawn = true;
-
             outer = new CircleShape(radius)
             {
                 Position = position,
                 FillColor = new Color(90, 90, 90),
             };
-
             inner = new CircleShape(radius * occlusion)
             {
                 FillColor = new Color(0, 0, 0),
                 Position = position, 
             };
-
             NeuronUtility.AlignCircles(ref outer, ref inner);
             CenterPoint = NeuronUtility.CalculateCenter(ref outer);
             ChangeActivation(0f);
+            ShouldBeDrawn = true;
         }
 
         public void Draw(RenderTarget target, RenderStates states)
@@ -69,7 +66,7 @@ namespace ANN_Visualization.src
                 Console.WriteLine("Warning: Neuron color based on negative activation.");
             }
             Activation = a;
-            float green = (255f * a);
+            float green = (255f * a); // Creates linear relationship since 'a' should range from [0,1].
             inner.FillColor = new Color(0, (byte)(green), 0);
         }
     }

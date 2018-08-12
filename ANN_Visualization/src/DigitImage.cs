@@ -14,9 +14,8 @@ namespace ANN_Visualization.src
 
         public DigitImage()
         {
-            image = new Image(28, 28);
-            imageHolder = new RectangleShape(new Vector2f(28f, 28f));
-            imageHolder.Position = new Vector2f(50f, 50f);
+            image = new Image(28, 28);                                  // Size of mnist images.
+            imageHolder = new RectangleShape(new Vector2f(28f, 28f));   //
             label = 0;
             predicting = 0;
             labelFont = new Font("C:/WINDOWS/FONTS/ARIAL.TTF");
@@ -24,25 +23,29 @@ namespace ANN_Visualization.src
 
         public void Draw(RenderTarget target, RenderStates s)
         {
+            // Hack to keep mnist digit appearing in top left corner of screen.
+            // TODO: Utilize viewports to create a view port for mnist image/label.
             GUI gui = (GUI)(target);
-            Vector2f imageCoords = gui.MapPixelToCoords(new Vector2i(0, 0));
+            Vector2f imageCoords = gui.MapPixelToCoords(new Vector2i(0, 0));                    // Ensures top left of screen.
             imageHolder.Position = imageCoords;
-            float imageScaleAdjust = (float)(Math.Pow(gui.ZoomRate, -gui.ZoomState)) * 1.5f;
+            float imageScaleAdjust = (float)(Math.Pow(gui.ZoomFactor, -gui.ZoomState)) * 1.5f;  // 1.5 came from visual trial/error.
             imageHolder.Scale = new Vector2f(imageScaleAdjust,imageScaleAdjust);
-            imageHolder.Draw(target, RenderStates.Default);
+            target.Draw(imageHolder, RenderStates.Default);
 
+            // Hack to keep textbox below the mnist image.
+            // TODO: Utilize viewports to create a view port for mnist image/label.
             Text labelText = new Text("Label: " + label.ToString() + "\n" + "Predicting: " + predicting, labelFont,10);
-            Vector2f labelCoords = gui.MapPixelToCoords(new Vector2i(0, 40));
+            Vector2f labelCoords = gui.MapPixelToCoords(new Vector2i(0, 40));                   // Ensures text box is below image.
             labelText.Position = labelCoords;
-            float labelScaleAdjust = (float)(Math.Pow(gui.ZoomRate, -gui.ZoomState))*0.5f;
+            float labelScaleAdjust = (float)(Math.Pow(gui.ZoomFactor, -gui.ZoomState))*0.5f;    // 0.5 came from visual trial/error.
             labelText.Scale = new Vector2f(imageScaleAdjust, imageScaleAdjust);
-            labelText.Draw(target, RenderStates.Default);
+            target.Draw(labelText, RenderStates.Default);
         }
 
         public void Update(float[] pixels, int label, int predicting)
         {
-            uint x = 0;
-            uint y = 0;
+            uint x = 0; // Used to properly orient pixels from mnist pixel list into 2x2 array.
+            uint y = 0; //
             foreach (float pixel in pixels)
             {
                 byte sat = (byte)(pixel * 255f);
