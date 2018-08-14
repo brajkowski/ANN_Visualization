@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SFML.Graphics;
+﻿using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 
 namespace ANN_Visualization.src
 {
@@ -13,15 +7,14 @@ namespace ANN_Visualization.src
     {
         RectangleShape background;
         Text text;
-        //string displayedText;
 
         public Popup(Vector2f position)
         {
             background = new RectangleShape()
             {
-                FillColor = new Color(30, 30, 30, 200),
-                OutlineColor = new Color(30, 30, 30, 200),
-                OutlineThickness = 2f,
+                FillColor = new Color(30, 30, 30, 200),     //
+                OutlineColor = new Color(30, 30, 30, 200),  // Create a grey background with 2px padding for text.
+                OutlineThickness = 2f,                      //
             };
             background.Position = position;
 
@@ -37,6 +30,7 @@ namespace ANN_Visualization.src
         {
             text.DisplayedString = newText;
 
+            // Update background to fit all of the text.
             FloatRect textBounds = text.GetGlobalBounds();
             background.Position = new Vector2f(textBounds.Left, textBounds.Top);
             background.Size = new Vector2f(textBounds.Width, textBounds.Height);
@@ -44,10 +38,8 @@ namespace ANN_Visualization.src
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-
-
             target.Draw(background, RenderStates.Default);
-            target.Draw(text);
+            target.Draw(text, RenderStates.Default);
         }
     }
 }
