@@ -34,7 +34,7 @@ namespace ANN_Visualization.src
 
             // Hack to keep textbox below the mnist image.
             // TODO: Utilize viewports to create a view port for mnist image/label.
-            Text labelText = new Text("Label: " + label.ToString() + "\n" + "Predicting: " + predicting, labelFont,10);
+            Text labelText = new Text("Label: " + label.ToString() + "\n" + "Predicting: " + predicting, labelFont,15);
             Vector2f labelCoords = gui.MapPixelToCoords(new Vector2i(0, 40));                   // Ensures text box is below image.
             labelText.Position = labelCoords;
             float labelScaleAdjust = (float)(Math.Pow(gui.ZoomFactor, -gui.ZoomState))*0.5f;    // 0.5 came from visual trial/error.

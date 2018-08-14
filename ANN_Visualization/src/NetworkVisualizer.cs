@@ -50,7 +50,7 @@ namespace ANN_Visualization.src
                 // Loop through neurons in layer.
                 for (int j = 0; j < networkSize[i]; j++)
                 {
-                    neuronList.Add(new Neuron(new SFML.System.Vector2f(x,y), radius));
+                    neuronList.Add(new Neuron(new SFML.System.Vector2f(x,y), radius, network.mBiases[i][j]));
                     y += vertSpacing;
                 }
                 prevCenter = y / 2f;

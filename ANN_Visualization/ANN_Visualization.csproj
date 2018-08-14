@@ -109,6 +109,7 @@
     <Compile Include="src\NeuralNetworkCS\MnistDataUtility.cs" />
     <Compile Include="src\NeuralNetworkCS\Network.cs" />
     <Compile Include="src\Neuron.cs" />
+    <Compile Include="src\Popup.cs" />
     <Compile Include="src\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

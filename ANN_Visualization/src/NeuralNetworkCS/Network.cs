@@ -27,7 +27,7 @@ namespace NeuralNetworkCS
         public List<Vector<float>> mNeurons;
         private List<Vector<float>> mZ;
         private List<Vector<float>> mError;
-        private List<Vector<float>> mBiases;
+        public List<Vector<float>> mBiases;
         private List<Vector<float>> mSumB;
         private List<Matrix<float>> mWeights;
         private List<Matrix<float>> mSumW;

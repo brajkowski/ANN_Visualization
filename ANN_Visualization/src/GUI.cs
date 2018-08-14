@@ -10,75 +10,99 @@ namespace ANN_Visualization.src
         public static void OnKeyPress(object sender, KeyEventArgs e)
         {
             GUI gui = (GUI)(sender);
-            if (e.Code == Keyboard.Key.Left)
+            switch (e.Code)
             {
-                gui.Visualizer.VisualizePrevious(ref gui.Neurons, ref gui.Connections);
-                gui.Visualizer.VisualizeDigit(ref gui.digitImage);
-            }
-            else if(e.Code == Keyboard.Key.Right)
-            {
-                gui.Visualizer.VisualizeNext(ref gui.Neurons,ref gui.Connections);
-                gui.Visualizer.VisualizeDigit(ref gui.digitImage);
-            }
-            else if(e.Code == Keyboard.Key.Up)
-            {
-                gui.Visualizer.IncreaseOpacityFactor(ref gui.Neurons, ref gui.Connections);
-            }
-            else if (e.Code == Keyboard.Key.Down)
-            {
-                gui.Visualizer.DecreaseOpacityFactor(ref gui.Neurons, ref gui.Connections);
-            }
-            else if (e.Code == Keyboard.Key.A)
-            {
-                foreach (Neuron n in gui.Neurons)
-                {
-                    n.ShouldBeDrawn = true;
-                }
-            }
-            else if (e.Code == Keyboard.Key.R)
-            {
-                gui.Visualizer.connectionViewState = Connections.Negative;
-                gui.Visualizer.Visualize(ref gui.Neurons, ref gui.Connections);
-                foreach (Connection c in gui.Connections)
-                {
-                    if (c.weight >= 0)
+                case Keyboard.Key.Left:
+                    gui.Visualizer.VisualizePrevious(ref gui.Neurons, ref gui.Connections);
+                    gui.Visualizer.VisualizeDigit(ref gui.digitImage);
+                    break;
+
+                case Keyboard.Key.Right:
+                    gui.Visualizer.VisualizeNext(ref gui.Neurons, ref gui.Connections);
+                    gui.Visualizer.VisualizeDigit(ref gui.digitImage);
+                    break;
+
+                case Keyboard.Key.Up:
+                    gui.Visualizer.IncreaseOpacityFactor(ref gui.Neurons, ref gui.Connections);
+                    break;
+
+                case Keyboard.Key.Down:
+                    gui.Visualizer.DecreaseOpacityFactor(ref gui.Neurons, ref gui.Connections);
+                    break;
+
+                case Keyboard.Key.A:
+                    foreach (Neuron n in gui.Neurons)
                     {
-                        c.Dampen();
+                        n.ShouldBeDrawn = true;
                     }
-                }
-            }
-            else if (e.Code == Keyboard.Key.G)
-            {
-                gui.Visualizer.connectionViewState = Connections.Positive;
-                gui.Visualizer.Visualize(ref gui.Neurons, ref gui.Connections);
-                foreach (Connection c in gui.Connections)
-                {
-                    if (c.weight < 0)
+                    break;
+
+                case Keyboard.Key.R:
+                    gui.Visualizer.connectionViewState = Connections.Negative;
+                    gui.Visualizer.Visualize(ref gui.Neurons, ref gui.Connections);
+                    foreach (Connection c in gui.Connections)
                     {
-                        c.Dampen();
+                        if (c.weight >= 0)
+                        {
+                            c.Dampen();
+                        }
                     }
-                }
-            }
-            else if (e.Code == Keyboard.Key.B)
-            {
-                gui.Visualizer.connectionViewState = Connections.All;
-                gui.Visualizer.Visualize(ref gui.Neurons, ref gui.Connections);
+                    break;
+
+                case Keyboard.Key.G:
+                    gui.Visualizer.connectionViewState = Connections.Positive;
+                    gui.Visualizer.Visualize(ref gui.Neurons, ref gui.Connections);
+                    foreach (Connection c in gui.Connections)
+                    {
+                        if (c.weight < 0)
+                        {
+                            c.Dampen();
+                        }
+                    }
+                    break;
+
+                case Keyboard.Key.B:
+                    gui.Visualizer.connectionViewState = Connections.All;
+                    gui.Visualizer.Visualize(ref gui.Neurons, ref gui.Connections);
+                    break;
+
+                case Keyboard.Key.C:
+                    foreach (Neuron n in gui.Neurons)
+                    {
+                        n.ShouldDrawBiasPopup = false;
+                    }
+                    break;
             }
         }
         public static void OnMouseButtonPress(object sender, MouseButtonEventArgs e)
         {
             GUI gui = (GUI)(sender);
             Vector2f coords = gui.MapPixelToCoords(new Vector2i(e.X, e.Y),gui.GetView());
-            if (e.Button == Mouse.Button.Right)
+            switch (e.Button)
             {
-                foreach (Neuron n in gui.Neurons)
-                {
-                    if (n.outer.GetGlobalBounds().Contains(coords.X,coords.Y))
+                case Mouse.Button.Right:
+                    foreach (Neuron n in gui.Neurons)
                     {
-                        n.ShouldBeDrawn = false;
-                        return;
+                        if (n.outer.GetGlobalBounds().Contains(coords.X, coords.Y))
+                        {
+                            n.ShouldBeDrawn = false;
+                            n.ShouldDrawBiasPopup = false;
+                            return;
+                        }
                     }
-                }
+                    break;
+
+                case Mouse.Button.Left:
+                    foreach (Neuron n in gui.Neurons)
+                    {
+                        if (n.outer.GetGlobalBounds().Contains(coords.X, coords.Y))
+                        {
+                            n.ShouldDrawBiasPopup = !n.ShouldDrawBiasPopup;
+                            return;
+                        }
+                    }
+                    break;
+
             }
         }
     }

@@ -28,10 +28,13 @@ namespace ANN_Visualization.src
         public CircleShape inner;
         public CircleShape outer;
         public Vector2f CenterPoint;
+        public Popup BiasPopup;
         public float Activation;
+        public float Bias;
         public bool ShouldBeDrawn;
+        public bool ShouldDrawBiasPopup;
 
-        public Neuron(Vector2f position, float radius)
+        public Neuron(Vector2f position, float radius, float bias)
         {
             float occlusion = 0.8f;
             outer = new CircleShape(radius)
@@ -47,7 +50,14 @@ namespace ANN_Visualization.src
             NeuronUtility.AlignCircles(ref outer, ref inner);
             CenterPoint = NeuronUtility.CalculateCenter(ref outer);
             ChangeActivation(0f);
+
+            BiasPopup = new Popup(CenterPoint);
+            Bias = bias;
+            BiasPopup.UpdateText("Bias: " + bias.ToString());
+
             ShouldBeDrawn = true;
+            ShouldDrawBiasPopup = false;
+            
         }
 
         public void Draw(RenderTarget target, RenderStates states)
@@ -56,6 +66,11 @@ namespace ANN_Visualization.src
             {
                 target.Draw(outer);
                 target.Draw(inner);
+
+                if (ShouldDrawBiasPopup)
+                {
+                    target.Draw(BiasPopup);
+                }
             }
         }
 
