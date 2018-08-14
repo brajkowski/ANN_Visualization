@@ -4,25 +4,6 @@ using SFML.System;
 
 namespace ANN_Visualization.src
 {
-    public static class NeuronUtility
-    {
-        public static void AlignCircles(ref CircleShape outer, ref CircleShape inner)
-        {
-            inner.Position = outer.Position;
-            float adjustment = outer.Radius - inner.Radius;
-            float newX = inner.Position.X + adjustment;
-            float newY = inner.Position.Y + adjustment;
-            inner.Position = new Vector2f(newX, newY);
-        }
-
-        public static Vector2f CalculateCenter(ref CircleShape circle)
-        {
-            float x = circle.Position.X + circle.Radius;
-            float y = circle.Position.Y + circle.Radius;
-            return new Vector2f(x, y);
-        }
-    }
-
     class Neuron : Drawable
     {
         public CircleShape inner;
@@ -47,8 +28,8 @@ namespace ANN_Visualization.src
                 FillColor = new Color(0, 0, 0),
                 Position = position, 
             };
-            NeuronUtility.AlignCircles(ref outer, ref inner);
-            CenterPoint = NeuronUtility.CalculateCenter(ref outer);
+            SFMLGeometryUtility.AlignCircles(ref outer, ref inner);
+            CenterPoint = SFMLGeometryUtility.CalculateCenter(ref outer);
             ChangeActivation(0f);
 
             BiasPopup = new Popup(CenterPoint);
