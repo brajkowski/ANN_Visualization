@@ -19,10 +19,28 @@ namespace ANN_Visualization.src
         {
             mnistData = new NeuralNetworkCS.MnistData();
             mnistData.LoadAll();
+            string networkFilePath;
+            while(true)
+            {
+                Console.WriteLine("Load 30-10 network (1) or 30-30-10 network (2)?");
+                var response = Console.ReadKey();
+                Console.WriteLine();
+                if (response.Key == ConsoleKey.D1 || response.Key == ConsoleKey.NumPad1)
+                {
+                    networkFilePath = @"NetworkData/network.dat";
+                    break;
+                }
+                if (response.Key == ConsoleKey.D2 || response.Key == ConsoleKey.NumPad2)
+                {
+                    networkFilePath = @"NetworkData/network2.dat";
+                    break;
+                }
+                Console.WriteLine("Please enter a valid response");
+            }
 
-            networkSize = NeuralNetworkCS.NetworkUtility.SizeSavedNetwork(@"NetworkData/network.dat");
+            networkSize = NeuralNetworkCS.NetworkUtility.SizeSavedNetwork(networkFilePath);
             network = new NeuralNetworkCS.Network(networkSize,NeuralNetworkCS.Activation.Sigmoid);
-            network.LoadNetwork(@"NetworkData/network.dat");
+            network.LoadNetwork(networkFilePath);
 
             currentImage = 0;
             connectionOpacityFactor = 10f;      //
