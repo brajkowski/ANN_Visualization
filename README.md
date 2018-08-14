@@ -1,7 +1,7 @@
 ﻿# ANN Visualization
 
 ## Description
-A proof-of-concept, interactive visualization tool that allows for the exploration of deep artifcial neural networks (ANN's).  This tool loads a pre-trained ANN capable of identifying handwritten digits (MNIST).  Users can flip through the MNIST testing set and visualize neuron activations, neuron biases, and the connection weights that form the network.
+A proof-of-concept, interactive visualization tool that allows for the exploration of deep artificial neural networks (ANN's).  This tool loads a pre-trained ANN capable of identifying handwritten digits (MNIST).  Users can flip through the MNIST testing set and visualize neuron activations, neuron biases, and the connection weights that form the network.
 
 ## System Requirements
 - Supported Operating Systems
